@@ -11,6 +11,7 @@ async function getWeather(location) {
     const weather = {
       temp: weatherData.currentConditions.temp,
       conditions: weatherData.currentConditions.conditions,
+      resolvedAddress: weatherData.resolvedAddress,
     };
     console.log(weatherData);
     return weather;
@@ -20,3 +21,21 @@ async function getWeather(location) {
   }
 }
 
+const form = document.querySelector("form");
+const input = document.querySelector("#location");
+let weather;
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  getWeather(input.value).then((weatherData) => {
+    weather = weatherData;
+    displayWeather();
+  });
+});
+
+function displayWeather() {
+  console.log(`Weather data: ${weather}`);
+  const currentTemp = document.querySelector("#current-temp");
+  const location = document.querySelector("div.location");
+  location.textContent = weather.resolvedAddress;
+  currentTemp.textContent = weather.temp + " ℉";
+}
