@@ -25,13 +25,20 @@ async function getWeather(location) {
 
 const form = document.querySelector("form");
 const input = document.querySelector("#location");
+const loading = document.querySelector("#loading");
 form.addEventListener("submit", (event) => {
+  console.log(loading);
+  console.log(loading.classList);
+  loading.classList.toggle("hidden");
+  console.log(loading.classList);
   event.preventDefault();
   getWeather(input.value)
     .then((weatherData) => {
+      loading.classList.toggle("hidden");
       displayWeather(weatherData);
     })
     .catch((error) => {
+      loading.classList.toggle("hidden");
       console.log(error);
       displayWeather(null);
     });
