@@ -14,6 +14,13 @@ async function getWeather(location) {
       tempMax: weatherData.days[0].tempmax,
       tempMin: weatherData.days[0].tempmin,
       description: weatherData.description,
+      days: weatherData.days.map((day) => {
+        return {
+          datetimeEpoch: day.datetimeEpoch,
+          tempmax: day.tempmax,
+          tempmin: day.tempmin,
+        };
+      }),
     };
     console.log(weatherData);
     return weather;
@@ -58,6 +65,7 @@ function displayWeather(weather) {
     tempMax.textContent = `H:${weather.tempMax}`;
     tempMin.textContent = `L:${weather.tempMin}`;
     description.textContent = weather.description;
+    console.log(weather.days);
   } else {
     location.textContent = `Could not find location: ${input.value}`;
   }
