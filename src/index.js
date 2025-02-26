@@ -62,3 +62,18 @@ function displayWeather(weather) {
     location.textContent = `Could not find location: ${input.value}`;
   }
 }
+
+function domReady(cb) {
+  if (
+    document.readyState === "interactive" ||
+    document.readyState === "complete"
+  ) {
+    cb();
+  } else {
+    document.addEventListener("DOMContentLoaded", cb);
+  }
+}
+
+domReady(() => {
+  document.body.style.visibility = "visible";
+});
