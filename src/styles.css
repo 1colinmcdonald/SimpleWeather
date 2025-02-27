@@ -1,5 +1,5 @@
 .location {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 #current-temp {
@@ -38,5 +38,28 @@ body {
 }
 
 .hidden {
-  display: none;
+  visibility: hidden;
+}
+
+.unhidden {
+  animation: spin 2s linear infinite;
+}
+
+.loader {
+  border: 12px solid rgb(234, 234, 234);
+  border-top: 12px solid black;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

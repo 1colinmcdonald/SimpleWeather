@@ -32,19 +32,27 @@ async function getWeather(location) {
 
 const form = document.querySelector("form");
 const input = document.querySelector("#location");
-const loading = document.querySelector("#loading");
+const loading = document.querySelector(".loader");
+const currentTemp = document.querySelector("#current-temp");
+const currentConditions = document.querySelector("#current-conditions");
+const tempMax = document.querySelector("#temp-max");
+const tempMin = document.querySelector("#temp-min");
+const description = document.querySelector("#description");
 form.addEventListener("submit", (event) => {
   console.log(loading);
   console.log(loading.classList);
   loading.classList.toggle("hidden");
+  loading.classList.toggle("unhidden");
   console.log(loading.classList);
   event.preventDefault();
   getWeather(input.value)
     .then((weatherData) => {
       loading.classList.toggle("hidden");
+      loading.classList.toggle("unhidden");
       displayWeather(weatherData);
     })
     .catch((error) => {
+      loading.classList.toggle("unhidden");
       loading.classList.toggle("hidden");
       console.log(error);
       displayWeather(null);
@@ -54,11 +62,6 @@ form.addEventListener("submit", (event) => {
 function displayWeather(weather) {
   const location = document.querySelector("div.location");
   if (weather) {
-    const currentTemp = document.querySelector("#current-temp");
-    const currentConditions = document.querySelector("#current-conditions");
-    const tempMax = document.querySelector("#temp-max");
-    const tempMin = document.querySelector("#temp-min");
-    const description = document.querySelector("#description");
     location.textContent = weather.resolvedAddress;
     currentTemp.textContent = `${weather.temp} ℉`;
     currentConditions.textContent = weather.conditions;
