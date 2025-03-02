@@ -1,6 +1,7 @@
 import "./styles.css";
 const api_key = "6ZUJY3SDN5235PFCJT736HJTT";
 
+const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 async function getWeather(location) {
   const result = await fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${api_key}`
@@ -8,17 +9,17 @@ async function getWeather(location) {
   try {
     const weatherData = await result.json();
     const weather = {
-      temp: weatherData.currentConditions.temp,
+      temp: Math.round(weatherData.currentConditions.temp),
       conditions: weatherData.currentConditions.conditions,
       resolvedAddress: weatherData.resolvedAddress,
-      tempMax: weatherData.days[0].tempmax,
-      tempMin: weatherData.days[0].tempmin,
+      tempMax: Math.round(weatherData.days[0].tempmax),
+      tempMin: Math.round(weatherData.days[0].tempmin),
       description: weatherData.description,
-      days: weatherData.days.map((day) => {
+      days: weatherData.days.slice(0, 10).map((day) => {
         return {
-          datetimeEpoch: day.datetimeEpoch,
-          tempmax: day.tempmax,
-          tempmin: day.tempmin,
+          day: daysOfWeek[new Date(day.datetime).getDay()],
+          tempmax: Math.round(day.tempmax),
+          tempmin: Math.round(day.tempmin),
         };
       }),
     };
@@ -33,43 +34,65 @@ async function getWeather(location) {
 const form = document.querySelector("form");
 const input = document.querySelector("#location");
 const loading = document.querySelector(".loader");
+const location = document.querySelector("div.location");
 const currentTemp = document.querySelector("#current-temp");
 const currentConditions = document.querySelector("#current-conditions");
-const tempMax = document.querySelector("#temp-max");
-const tempMin = document.querySelector("#temp-min");
+const tempMax = document.querySelector(".temp-max > .data");
+const tempMin = document.querySelector(".temp-min > .data");
 const description = document.querySelector("#description");
+const weatherText = document.querySelector("#weather-text");
+const days = document.querySelector("#ten-day-forecast");
 form.addEventListener("submit", (event) => {
-  console.log(loading);
-  console.log(loading.classList);
-  loading.classList.toggle("hidden");
-  loading.classList.toggle("unhidden");
-  console.log(loading.classList);
   event.preventDefault();
-  getWeather(input.value)
-    .then((weatherData) => {
-      loading.classList.toggle("hidden");
-      loading.classList.toggle("unhidden");
-      displayWeather(weatherData);
-    })
-    .catch((error) => {
-      loading.classList.toggle("unhidden");
-      loading.classList.toggle("hidden");
-      console.log(error);
-      displayWeather(null);
-    });
+  if (input.value === "") {
+    weatherText.classList.add("hidden");
+    location.classList.add("hidden");
+  } else {
+    console.log(loading);
+    console.log(loading.classList);
+    weatherText.classList.remove("hidden");
+
+    showLoadingState();
+    console.log(loading.classList);
+    getWeather(input.value)
+      .then((weatherData) => {
+        displayWeather(weatherData);
+      })
+      .catch((error) => {
+        console.log(error);
+        displayWeather(null);
+      });
+  }
 });
 
 function displayWeather(weather) {
-  const location = document.querySelector("div.location");
+  showDoneLoadingState();
   if (weather) {
     location.textContent = weather.resolvedAddress;
-    currentTemp.textContent = `${weather.temp} ℉`;
+    currentTemp.textContent = weather.temp;
     currentConditions.textContent = weather.conditions;
-    tempMax.textContent = `H:${weather.tempMax}`;
-    tempMin.textContent = `L:${weather.tempMin}`;
+    tempMax.textContent = `${weather.tempMax}`;
+    tempMin.textContent = `${weather.tempMin}`;
     description.textContent = weather.description;
     console.log(weather.days);
+    for (let i = 0; i < days.children.length; i++) {
+      const dayOfWeek = days.children[i].querySelector(".day-of-week");
+      if (i === 0) {
+        dayOfWeek.textContent = "Today";
+      } else {
+        dayOfWeek.textContent = weather.days[i].day;
+      }
+      console.log(days.children[i].children);
+      console.log(days);
+      days.children[i].querySelector(
+        ".day-min"
+      ).textContent = `${weather.days[i].tempmin}°`;
+      days.children[i].querySelector(
+        ".day-max"
+      ).textContent = `${weather.days[i].tempmax}°`;
+    }
   } else {
+    weatherText.classList.add("hidden");
     location.textContent = `Could not find location: ${input.value}`;
   }
 }
@@ -88,3 +111,25 @@ function domReady(cb) {
 domReady(() => {
   document.body.style.visibility = "visible";
 });
+
+function showLoadingState() {
+  loading.classList.remove("hidden");
+  loading.classList.add("unhidden-loader");
+  location.classList.add("hidden");
+  currentTemp.classList.add("hidden");
+  currentConditions.classList.add("hidden");
+  description.classList.add("hidden");
+  tempMax.classList.add("hidden");
+  tempMin.classList.add("hidden");
+}
+
+function showDoneLoadingState() {
+  loading.classList.add("hidden");
+  loading.classList.remove("unhidden-loader");
+  location.classList.remove("hidden");
+  currentTemp.classList.remove("hidden");
+  currentConditions.classList.remove("hidden");
+  description.classList.remove("hidden");
+  tempMax.classList.remove("hidden");
+  tempMin.classList.remove("hidden");
+}

@@ -1,9 +1,14 @@
 .location {
   font-size: 30px;
+  height: 50px;
 }
 
-#current-temp {
+.current-temp {
   font-size: 50px;
+  display: grid;
+  grid-template-columns: 100px 100px;
+  grid-template-rows: 1;
+  gap: 10px;
 }
 
 input {
@@ -33,7 +38,8 @@ body {
 }
 
 #max-min {
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px 40px;
   gap: 30px;
 }
 
@@ -41,7 +47,7 @@ body {
   visibility: hidden;
 }
 
-.unhidden {
+.unhidden-loader {
   animation: spin 2s linear infinite;
 }
 
@@ -62,4 +68,31 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+#weather-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+}
+
+#max-min > * {
+  display: flex;
+  gap: 5px;
+}
+
+#current-temp {
+  justify-self: end;
+}
+
+.day {
+  display: grid;
+  grid-template-columns: 60px 30px 30px
+}
+
+#ten-day-forecast {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SimpleWeather</title>
   </head>
-  <body style="visibility: hidden;">
+  <body style="visibility: hidden">
     <div>SimpleWeather</div>
     <form>
       <input id="location" type="text" autofocus />
@@ -13,25 +13,76 @@
     </form>
     <div class="loader hidden"></div>
     <div class="location"></div>
-    <div id="current-temp"></div>
-    <div id="current-conditions"></div>
-    <div id="max-min">
-      <div id="temp-max"></div>
-      <div id="temp-min"></div>
-    </div>
-    <div id="description"></div>
-    <div id="hourly"></div>
-    <div id="ten-day-forecast">
-      <div id="day0"></div>
-      <div id="day1"></div>
-      <div id="day2"></div>
-      <div id="day3"></div>
-      <div id="day4"></div>
-      <div id="day5"></div>
-      <div id="day6"></div>
-      <div id="day7"></div>
-      <div id="day8"></div>
-      <div id="day9"></div>
+    <div id="weather-text" class="hidden">
+      <div class="current-temp">
+        <div id="current-temp"></div>
+        <div id="current-temp-units">℉</div>
+      </div>
+      <div id="current-conditions"></div>
+      <div id="max-min">
+        <div class="temp-max">
+          <div class="label">H:</div>
+          <div class="data"></div>
+        </div>
+        <div class="temp-min">
+          <div class="label">L:</div>
+          <div class="data"></div>
+        </div>
+      </div>
+      <div id="description"></div>
+      <div id="hourly"></div>
+      <div id="ten-day-forecast">
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+        <div class="day">
+          <div class="day-of-week"></div>
+          <div class="day-min"></div>
+          <div class="day-max"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
