@@ -88,11 +88,24 @@ body {
 
 .day {
   display: grid;
-  grid-template-columns: 60px 30px 30px
+  grid-template-columns: 60px 30px 30px;
 }
 
 #ten-day-forecast {
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#description {
+  margin: 5px;
+  height: 30px;
+}
+
+#current-conditions {
+  height: 30px;
 }

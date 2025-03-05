@@ -8,6 +8,14 @@ async function getWeather(location) {
   );
   try {
     const weatherData = await result.json();
+    console.log(weatherData);
+    const dateString = `${weatherData.days[0].datetime}T${weatherData.currentConditions.datetime}`;
+    const date = new Date(dateString);
+    console.log(dateString);
+    console.log(date);
+
+    // [Log] Object
+
     const weather = {
       temp: Math.round(weatherData.currentConditions.temp),
       conditions: weatherData.currentConditions.conditions,
@@ -23,10 +31,8 @@ async function getWeather(location) {
         };
       }),
     };
-    console.log(weatherData);
     return weather;
   } catch {
-    console.log("Invalid location");
     return null;
   }
 }
@@ -48,18 +54,14 @@ form.addEventListener("submit", (event) => {
     weatherText.classList.add("hidden");
     location.classList.add("hidden");
   } else {
-    console.log(loading);
-    console.log(loading.classList);
     weatherText.classList.remove("hidden");
 
     showLoadingState();
-    console.log(loading.classList);
     getWeather(input.value)
       .then((weatherData) => {
         displayWeather(weatherData);
       })
       .catch((error) => {
-        console.log(error);
         displayWeather(null);
       });
   }
@@ -74,7 +76,6 @@ function displayWeather(weather) {
     tempMax.textContent = `${weather.tempMax}`;
     tempMin.textContent = `${weather.tempMin}`;
     description.textContent = weather.description;
-    console.log(weather.days);
     for (let i = 0; i < days.children.length; i++) {
       const dayOfWeek = days.children[i].querySelector(".day-of-week");
       if (i === 0) {
@@ -82,8 +83,6 @@ function displayWeather(weather) {
       } else {
         dayOfWeek.textContent = weather.days[i].day;
       }
-      console.log(days.children[i].children);
-      console.log(days);
       days.children[i].querySelector(
         ".day-min"
       ).textContent = `${weather.days[i].tempmin}°`;
