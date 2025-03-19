@@ -1,41 +1,12 @@
+import {
+  getWeather,
+  convertAllWeatherToCelsius,
+  convertAllWeatherToFahrenheit,
+  currentUnits,
+} from "./weather";
 import "./styles.css";
-const api_key = "6ZUJY3SDN5235PFCJT736HJTT";
 
-const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-async function getWeather(location) {
-  const result = await fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${api_key}`
-  );
-  try {
-    const weatherData = await result.json();
-    console.log(weatherData);
-    const dateString = `${weatherData.days[0].datetime}T${weatherData.currentConditions.datetime}`;
-    const date = new Date(dateString);
-    console.log(dateString);
-    console.log(date);
-
-    // [Log] Object
-
-    const weather = {
-      temp: Math.round(weatherData.currentConditions.temp),
-      conditions: weatherData.currentConditions.conditions,
-      resolvedAddress: weatherData.resolvedAddress,
-      tempMax: Math.round(weatherData.days[0].tempmax),
-      tempMin: Math.round(weatherData.days[0].tempmin),
-      description: weatherData.description,
-      days: weatherData.days.slice(0, 10).map((day) => {
-        return {
-          day: daysOfWeek[new Date(day.datetime).getDay()],
-          tempmax: Math.round(day.tempmax),
-          tempmin: Math.round(day.tempmin),
-        };
-      }),
-    };
-    return weather;
-  } catch {
-    return null;
-  }
-}
+let weather = null;
 
 const form = document.querySelector("form");
 const input = document.querySelector("#location");
@@ -43,57 +14,131 @@ const loading = document.querySelector(".loader");
 const location = document.querySelector("div.location");
 const currentTemp = document.querySelector("#current-temp");
 const currentConditions = document.querySelector("#current-conditions");
-const tempMax = document.querySelector(".temp-max > .data");
+const tempmax = document.querySelector(".temp-max > .data");
 const tempMin = document.querySelector(".temp-min > .data");
 const description = document.querySelector("#description");
 const weatherText = document.querySelector("#weather-text");
-const days = document.querySelector("#ten-day-forecast");
+const days = document.querySelectorAll("#ten-day-forecast > .day");
+const scaleSwitcher = document.querySelector("#scale-switcher");
+const dayTemps = document.querySelectorAll(".day-min,.day-max");
+scaleSwitcher.addEventListener("click", () => {
+  if (scaleSwitcher.textContent === "Switch to Celsius") {
+    console.log("Converting to celsius!");
+    weather = convertAllWeatherToCelsius(weather);
+    scaleSwitcher.textContent = "Switch to Fahrenheit";
+    console.log(weather);
+  } else {
+    console.log("Converting to Fahrenheit");
+    weather = convertAllWeatherToFahrenheit(weather);
+    console.log(weather);
+    scaleSwitcher.textContent = "Change to Celsius";
+  }
+  displayWeather();
+});
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   if (input.value === "") {
-    weatherText.classList.add("hidden");
-    location.classList.add("hidden");
+    clearScreen();
   } else {
     weatherText.classList.remove("hidden");
 
     showLoadingState();
     getWeather(input.value)
       .then((weatherData) => {
-        displayWeather(weatherData);
+        weather = weatherData;
+        console.log(`Weather data: ${weatherData}`);
+        console.log(`input value: ${input.value}`);
+
+        displayWeather();
       })
       .catch((error) => {
-        displayWeather(null);
+        console.log("An error occurred");
+        displayWeather();
       });
   }
 });
 
-function displayWeather(weather) {
+function displayWeather() {
   showDoneLoadingState();
   if (weather) {
+    document.body.style.backgroundColor = "rgb(255, 38, 0)";
+    if (weather.temp < 140) {
+      document.body.style.backgroundColor = "rgb(255, 106, 0)";
+    }
+    if (weather.temp < 100) {
+      document.body.style.backgroundColor = "rgb(255, 77, 0)";
+    }
+    if (weather.temp < 90) {
+      document.body.style.backgroundColor = "rgb(255, 132, 0)";
+    }
+    if (weather.temp < 80) {
+      document.body.style.backgroundColor = "rgb(255, 200, 0)";
+    }
+    if (weather.temp < 70) {
+      document.body.style.backgroundColor = "rgb(255, 255, 0)";
+    }
+    if (weather.temp < 60) {
+      document.body.style.backgroundColor = "rgb(0, 225, 255)";
+    }
+    if (weather.temp < 50) {
+      document.body.style.backgroundColor = "rgb(0, 204, 255)";
+    }
+    if (weather.temp < 40) {
+      document.body.style.backgroundColor = "rgb(0, 149, 255)";
+    }
+    if (weather.temp < 30) {
+      document.body.style.backgroundColor = "rgb(0, 55, 255);";
+    }
+    if (weather.temp < 20) {
+      document.body.style.backgroundColor = "rgb(0, 13, 255);";
+    }
+    if (weather.temp < 10) {
+      document.body.style.backgroundColor = "rgb(21, 0, 255);";
+    }
+    if (weather.temp < 0) {
+      document.body.style.backgroundColor = "rgb(47, 0, 255);";
+    }
+    if (weather.temp < -10) {
+      document.body.style.backgroundColor = "rgb(106, 0, 255)";
+    }
+    if (weather.temp < -20) {
+      document.body.style.backgroundColor = "rgb(76, 0, 255);";
+    }
+    if (weather.temp < -30) {
+      document.body.style.backgroundColor = "rgb(0, 26, 255);";
+    }
+    if (weather.temp < -40) {
+      document.body.style.backgroundColor = "rgb(149, 0, 255)";
+    }
     location.textContent = weather.resolvedAddress;
-    currentTemp.textContent = weather.temp;
+    currentTemp.textContent = `${Math.round(weather.temp)}°`;
     currentConditions.textContent = weather.conditions;
-    tempMax.textContent = `${weather.tempMax}`;
-    tempMin.textContent = `${weather.tempMin}`;
+    tempmax.textContent = `${Math.round(weather.tempmax)}°`;
+    tempMin.textContent = `${Math.round(weather.tempmin)}°`;
     description.textContent = weather.description;
-    for (let i = 0; i < days.children.length; i++) {
-      const dayOfWeek = days.children[i].querySelector(".day-of-week");
+    for (let i = 0; i < days.length; i++) {
+      const dayOfWeek = days[i].querySelector(".day-of-week");
       if (i === 0) {
         dayOfWeek.textContent = "Today";
       } else {
         dayOfWeek.textContent = weather.days[i].day;
       }
-      days.children[i].querySelector(
-        ".day-min"
-      ).textContent = `${weather.days[i].tempmin}°`;
-      days.children[i].querySelector(
-        ".day-max"
-      ).textContent = `${weather.days[i].tempmax}°`;
+      days[i].querySelector(".day-min").textContent = `${Math.round(
+        weather.days[i].tempmin
+      )}°`;
+      days[i].querySelector(".day-max").textContent = `${Math.round(
+        weather.days[i].tempmax
+      )}°`;
     }
   } else {
     weatherText.classList.add("hidden");
     location.textContent = `Could not find location: ${input.value}`;
   }
+}
+
+function convertToCelsius() {
+  weather = convertAllWeatherToCelsius(weather);
+  displayWeather();
 }
 
 function domReady(cb) {
@@ -118,8 +163,11 @@ function showLoadingState() {
   currentTemp.classList.add("hidden");
   currentConditions.classList.add("hidden");
   description.classList.add("hidden");
-  tempMax.classList.add("hidden");
+  tempmax.classList.add("hidden");
   tempMin.classList.add("hidden");
+  dayTemps.forEach((element) => {
+    element.classList.add("hidden");
+  });
 }
 
 function showDoneLoadingState() {
@@ -129,6 +177,21 @@ function showDoneLoadingState() {
   currentTemp.classList.remove("hidden");
   currentConditions.classList.remove("hidden");
   description.classList.remove("hidden");
-  tempMax.classList.remove("hidden");
+  tempmax.classList.remove("hidden");
   tempMin.classList.remove("hidden");
+  scaleSwitcher.textContent = `Switch to ${getOtherUnits()}`;
+  scaleSwitcher.classList.remove("hidden");
+  dayTemps.forEach((element) => {
+    element.classList.remove("hidden");
+  });
+}
+
+const getOtherUnits = () =>
+  currentUnits === "Celsius" ? "Fahrenheit" : "Celsius";
+
+function clearScreen() {
+  weatherText.classList.add("hidden");
+  location.classList.add("hidden");
+
+  scaleSwitcher.classList.add("hidden");
 }

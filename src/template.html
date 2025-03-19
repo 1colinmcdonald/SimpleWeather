@@ -6,81 +6,90 @@
     <title>SimpleWeather</title>
   </head>
   <body style="visibility: hidden">
-    <div>SimpleWeather</div>
-    <form>
-      <input id="location" type="text" autofocus />
-      <input id="search-button" type="submit" value="Get Weather" />
-    </form>
-    <div class="loader hidden"></div>
-    <div class="location"></div>
-    <div id="weather-text" class="hidden">
-      <div class="current-temp">
+    <button id="scale-switcher" class="hidden">Switch to Celsius</button>
+    <div id="content">
+      <div>SimpleWeather</div>
+      <form>
+        <input id="location" type="text" autofocus />
+        <input id="search-button" type="submit" value="Get Weather" />
+      </form>
+      <div class="loader hidden"></div>
+      <div class="location"></div>
+      <div id="weather-text" class="hidden">
         <div id="current-temp"></div>
-        <div id="current-temp-units">℉</div>
-      </div>
-      <div id="current-conditions"></div>
-      <div id="max-min">
-        <div class="temp-max">
-          <div class="label">H:</div>
-          <div class="data"></div>
+        <div id="current-conditions"></div>
+        <div id="max-min">
+          <div class="temp-max">
+            <div class="label">H:</div>
+            <div class="data"></div>
+          </div>
+          <div class="temp-min">
+            <div class="label">L:</div>
+            <div class="data"></div>
+          </div>
         </div>
-        <div class="temp-min">
-          <div class="label">L:</div>
-          <div class="data"></div>
-        </div>
-      </div>
-      <div id="description"></div>
-      <div id="hourly"></div>
-      <div id="ten-day-forecast">
-        <div class="day">
-          <div class="day-of-week">Today</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Mon</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Tue</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Wed</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Thu</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Fri</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Sat</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Sun</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Mon</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
-        </div>
-        <div class="day">
-          <div class="day-of-week">Tue</div>
-          <div class="day-min"></div>
-          <div class="day-max"></div>
+        <div id="description"></div>
+        <div id="hourly"></div>
+        <div id="ten-day-forecast">
+          <div class="day">
+            <div class="day-of-week">Today</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Mon</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Tue</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Wed</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Thu</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Fri</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Sat</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Sun</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Mon</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="day">
+            <div class="day-of-week">Tue</div>
+            <div class="day-min"></div>
+            <div class="day-max"></div>
+          </div>
         </div>
       </div>
     </div>
