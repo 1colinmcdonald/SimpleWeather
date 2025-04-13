@@ -1,5 +1,6 @@
 import {
   getWeather,
+  convertToFahrenheit,
   convertAllWeatherToCelsius,
   convertAllWeatherToFahrenheit,
   currentUnits,
@@ -61,53 +62,58 @@ form.addEventListener("submit", (event) => {
 function displayWeather() {
   showDoneLoadingState();
   if (weather) {
+    console.log(weather);
+    let temp = weather.temp;
+    if (currentUnits === "Celsius") {
+      temp = convertToFahrenheit(temp);
+    }
     document.body.style.backgroundColor = "rgb(255, 38, 0)";
-    if (weather.temp < 140) {
+    if (temp < 140) {
       document.body.style.backgroundColor = "rgb(255, 106, 0)";
     }
-    if (weather.temp < 100) {
+    if (temp < 100) {
       document.body.style.backgroundColor = "rgb(255, 77, 0)";
     }
-    if (weather.temp < 90) {
+    if (temp < 90) {
       document.body.style.backgroundColor = "rgb(255, 132, 0)";
     }
-    if (weather.temp < 80) {
+    if (temp < 80) {
       document.body.style.backgroundColor = "rgb(255, 200, 0)";
     }
-    if (weather.temp < 70) {
+    if (temp < 70) {
       document.body.style.backgroundColor = "rgb(255, 255, 0)";
     }
-    if (weather.temp < 60) {
+    if (temp < 60) {
       document.body.style.backgroundColor = "rgb(0, 225, 255)";
     }
-    if (weather.temp < 50) {
+    if (temp < 50) {
       document.body.style.backgroundColor = "rgb(0, 204, 255)";
     }
-    if (weather.temp < 40) {
+    if (temp < 40) {
       document.body.style.backgroundColor = "rgb(0, 149, 255)";
     }
-    if (weather.temp < 30) {
+    if (temp < 30) {
       document.body.style.backgroundColor = "rgb(0, 55, 255);";
     }
-    if (weather.temp < 20) {
+    if (temp < 20) {
       document.body.style.backgroundColor = "rgb(0, 13, 255);";
     }
-    if (weather.temp < 10) {
+    if (temp < 10) {
       document.body.style.backgroundColor = "rgb(21, 0, 255);";
     }
-    if (weather.temp < 0) {
+    if (temp < 0) {
       document.body.style.backgroundColor = "rgb(47, 0, 255);";
     }
-    if (weather.temp < -10) {
+    if (temp < -10) {
       document.body.style.backgroundColor = "rgb(106, 0, 255)";
     }
-    if (weather.temp < -20) {
+    if (temp < -20) {
       document.body.style.backgroundColor = "rgb(76, 0, 255);";
     }
-    if (weather.temp < -30) {
+    if (temp < -30) {
       document.body.style.backgroundColor = "rgb(0, 26, 255);";
     }
-    if (weather.temp < -40) {
+    if (temp < -40) {
       document.body.style.backgroundColor = "rgb(149, 0, 255)";
     }
     location.textContent = weather.resolvedAddress;
